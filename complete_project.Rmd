@@ -9,22 +9,35 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Cape Hatteras BRS Analysis
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Load in the libraries and library paths
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r echo=FALSE}
+.libPaths("C:/Users/froug/OneDrive/Documents/R/win-library/3.5")
 
-```{r cars}
-summary(cars)
+library(dplyr, lib.loc="C:/Users/froug/OneDrive/Documents/R/win-library/3.5")
+library(readr, lib.loc="C:/Users/froug/OneDrive/Documents/R/win-library/3.5")
+library(fields, lib.loc="C:/Users/froug/OneDrive/Documents/R/win-library/3.5")
+library(lme4, lib.loc="C:/Users/froug/OneDrive/Documents/R/win-library/3.5")
+library(ggplot2, lib.loc="C:/Users/froug/OneDrive/Documents/R/win-library/3.5")
 ```
 
-## Including Plots
+## Read in the data
 
-You can also embed plots, for example:
+```{r, echo=TRUE}
+kahuna <- read_csv('C:/Users/froug/Desktop/myRepo/data/2018-11-26_2017-Cape-Hatteras-BRS-kahuna-CEE.csv')
+kStart <- kahuna %>% 
+  filter(status == 'start')
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# Read in Gm182 Data: 100 estimated positions of Gm182, augmented with focal follow data
+gm182UP <- read_csv('C:/Users/froug/Desktop/myRepo/data/2018-11-27_Gm182-UserPoints-Start-CEE-Locations-Kahuna.csv') %>% 
+  mutate(status = 'userPoints')
+
+# Read in Gm182 Data: 100 estimated positions of Gm182
+gm182 <- read_csv('C:/Users/froug/Desktop/myRepo/data/2018-11-27_Gm182-Start-CEE-Locations-Kahuna.csv') %>% 
+  mutate(status = 'noUserPoints')
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
